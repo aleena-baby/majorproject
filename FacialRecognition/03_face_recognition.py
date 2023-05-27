@@ -42,7 +42,7 @@ while True:
 
         id, confidence = recognizer.predict(gray[y:y + h, x:x + w])
         print(confidence)
-
+        confidence = "  {0}%".format(round(100 - confidence))
         # Check if confidence is less than 100
         if confidence > 55 and id < len(names):
             id = names[id]

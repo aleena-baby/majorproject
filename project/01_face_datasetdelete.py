@@ -21,7 +21,8 @@ def delete(n):
     with open('names.txt', 'w') as file:
         for line in names:
             if not line.strip().startswith(f"{idd} "):
-                file.write(line)
+                file.write(line+"\n")
+
 
 nam = input('Enter the person name: ')
 delete(nam)

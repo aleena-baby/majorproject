@@ -19,16 +19,22 @@ def getImagesAndLabels(path):
     faceSamples=[]
     ids = []
 
+
+
+
     for imagePath in imagePaths:
 
         PIL_img = Image.open(imagePath).convert('L') # convert it to grayscale
         img_numpy = np.array(PIL_img,'uint8')
 
         id = int(os.path.split(imagePath)[-1].split(".")[1])
+        
         faces = detector.detectMultiScale(img_numpy)
 
         for (x,y,w,h) in faces:
             faceSamples.append(img_numpy[y:y+h,x:x+w])
+            cv2.imshow("training", img_numpy[y:y+h,x:x+w])
+            cv2.waitKey(100)
             ids.append(id)
 
     return faceSamples,ids
@@ -43,3 +49,7 @@ recognizer.write('Trainer_face_recognition/trainer.yml')
 
 # Print the numer of faces trained and end program
 print("\n [INFO] {0} faces trained. Exiting Program".format(len(np.unique(ids))))
+
+
+
+

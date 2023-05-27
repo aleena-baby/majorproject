@@ -1,6 +1,8 @@
 import cv2
 import numpy as np
 import os 
+import winsound
+
 def recognize_face():
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     recognizer.read('Trainer_face_recognition/trainer.yml')
@@ -11,6 +13,7 @@ def recognize_face():
 
     # Initialize id counter
     id = 0
+    count=0
 
     # Read names from file
     with open('names.txt', 'r') as file:
@@ -41,16 +44,28 @@ def recognize_face():
             cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
             id, confidence = recognizer.predict(gray[y:y + h, x:x + w])
+            print(id)
             print(confidence)
+            for nam in names:
+                if nam.startswith(str(id)):
+                    sd=nam
 
+            print(sd)
+            #confidence = round(100 - confidence)
             # Check if confidence is less than 100
-            if confidence > 55 and id < len(names):
-                id = names[id]
+            if confidence > 40 and id < len(names):
+                ids = sd
             else:
                 #print(names[id])
-                id = "unknown"
+                ids = "unknown"
+                count+=0.05
+            if count>1:
+                duration = 1000  # milliseconds
+                freq = 440  # Hz
+                winsound.Beep(freq, duration)
+                count=0
 
-            cv2.putText(img, str(id), (x + 5, y - 5), font, 1, (255, 255, 255), 2)
+            cv2.putText(img, str(ids), (x + 5, y - 5), font, 1, (255, 255, 255), 2)
             cv2.putText(img, str(confidence), (x + 5, y + h - 5), font, 1, (255, 255, 0), 1)
 
         cv2.imshow('camera', img)

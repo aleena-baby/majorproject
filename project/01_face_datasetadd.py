@@ -30,14 +30,15 @@ def addDataset():
         for (x, y, w, h) in faces:
             cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
             count += 1
-
+            roi_color = img[y:y+h,x:x+w]
+            cv2.imshow("temp",roi_color)
             # Save the captured image into the datasets folder
             cv2.imwrite("Dataset_face_recognition/User." + str(face_id) + '.' + str(count) + ".jpg", gray[y:y+h, x:x+w])
 
             cv2.imshow('image', img)
 
         k = cv2.waitKey(100) & 0xff # Press 'ESC' for exiting video
-        if k == 27 or count >= 200: # Take 30 face samples or press 'ESC' to stop
+        if k == 27 or count >= 100: # Take 30 face samples or press 'ESC' to stop
             break
 
     # Do a bit of cleanup
@@ -51,7 +52,7 @@ def addDataset():
 
     # Update the names array in face recognition code
     with open('names.txt', 'a') as file:
-        file.write('\n'+face_id+" "+face_name)
+        file.write(face_id+" "+face_name+"\n")
 
 # Usage example
 # choice=input("do you want to add a user or delete")
