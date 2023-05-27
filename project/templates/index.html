@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <h1>Home Page</h1>
+    <h2>Alert Status: {% if alert_status %}Active{% else %}Inactive{% endif %}</h2>
+
+    <form action="/alert" method="POST">
+        <input type="hidden" name="status" value="0">
+        <button type="submit">Deactivate Alert</button>
+    </form>
+
+    <form action="/alert" method="POST">
+        <input type="hidden" name="status" value="1">
+        <button type="submit">Activate Alert</button>
+    </form>
+</body>
+</html>
